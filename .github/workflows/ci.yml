@@ -1,22 +1,29 @@
-name: Test Code
+name: Datadog Integration
+
 on:
   push:
     branches:
       - main  # Replace 'main' with the branch you want to trigger the action on
 
 jobs:
-  test:
+  datadog_integration:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Set up Datadog Agent
         uses: datadog/agent-github-action@v1.3
         with:
           api_key: ${{ secrets.DD_API_KEY }}
-        env: 
-           DD_API_KEY_FILE: ./auth_token
-      - name: Checkout code
-        uses: actions/checkout@v2
+        env:
+          DD_API_KEY_FILE: ./auth_token
+        # Optionally, you can specify the mount point of the token inside the container (default is /etc/datadog-agent/auth_token)
+        # env:
+        #   DD_API_KEY_FILE: ./auth_token:/path/to/your/token/file/inside/container
 
-      - name: Run tests
-        run: make tests
+      # Add other steps for your build/test/deploy process here.
+      # For example:
+      # - name: Build and Test
+      #   run: make tests
