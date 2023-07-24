@@ -14,16 +14,17 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up Datadog Agent
-        uses: datadog/agent-github-action@v1.3
-        with:
-          api_key: ${{ secrets.DD_API_KEY }}
-        env:
-          DD_API_KEY_FILE: ./auth_token
-        # Optionally, you can specify the mount point of the token inside the container (default is /etc/datadog-agent/auth_token)
-        # env:
-        #   DD_API_KEY_FILE: ./auth_token:/path/to/your/token/file/inside/container
+        run: |
+          echo "${{ secrets.DD_API_KEY }}" > auth_token
+          docker run -d --name datadog-agent \
+            -e DD_API_KEY="`cat auth_token`" \
+            -v $PWD/auth_token:/etc/datadog-agent/auth_token \
+            datadog/agent:latest
 
       # Add other steps for your build/test/deploy process here.
       # For example:
       # - name: Build and Test
       #   run: make tests
+
+      - name: Cleanup Datadog Agent container
+        run: docker stop datadog-agent && docker rm datadog-agent
