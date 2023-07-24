@@ -21,10 +21,24 @@ jobs:
             -v $PWD/auth_token:/etc/datadog-agent/auth_token \
             datadog/agent:latest
 
+      - name: Run Tests and Collect Metrics
+        run: |
+          # Your test commands here
+          make tests
+
+          # Send custom metrics to Datadog using the DogStatsD client
+          docker run --rm --name datadog-statsd \
+            -e DD_API_KEY="`cat auth_token`" \
+            datadog/dogstatsd:latest statsd.increment 'test.run'
+
       # Add other steps for your build/test/deploy process here.
       # For example:
       # - name: Build and Test
       #   run: make tests
 
-      - name: Cleanup Datadog Agent container
-        run: docker stop datadog-agent && docker rm datadog-agent
+      - name: Cleanup Datadog Agent and StatsD container
+        run: |
+          docker stop datadog-agent
+          docker stop datadog-statsd
+          docker rm datadog-agent
+          docker rm datadog-statsd
