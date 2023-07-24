@@ -23,8 +23,9 @@ jobs:
 
       - name: Run Tests and Collect Metrics
         run: |
-          # Your test commands here
-          make tests
+          # Replace this with the actual test command for your Node.js project
+          npm install
+          npm test
 
           # Send custom metrics to Datadog using the DogStatsD client
           docker run --rm --name datadog-statsd \
@@ -32,9 +33,6 @@ jobs:
             datadog/dogstatsd:latest statsd.increment 'test.run'
 
       # Add other steps for your build/test/deploy process here.
-      # For example:
-      # - name: Build and Test
-      #   run: make tests
 
       - name: Cleanup Datadog Agent and StatsD container
         run: |
