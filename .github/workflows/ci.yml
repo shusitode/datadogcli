@@ -23,9 +23,8 @@ jobs:
 
       - name: Run Tests and Collect Metrics
         run: |
-          # Add the command to build and execute your project here
-          # For example, if you have a Python script, use: python path/to/your/script.py
-          # If you have a shell script, use: bash path/to/your/script.sh
+          # Add the Python command to execute your project here
+          python -c "print('Hello, GitHub Actions!')"
 
           # Send custom metrics to Datadog using the DogStatsD client
           docker run --rm --name datadog-statsd \
