@@ -12,9 +12,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          # Specify the path to the directory where your Node.js project is located
-          path: 'path/to/your/nodejs/project'
 
       - name: Set up Datadog Agent
         run: |
@@ -25,11 +22,10 @@ jobs:
             datadog/agent:latest
 
       - name: Run Tests and Collect Metrics
-        working-directory: path/to/your/nodejs/project  # Replace with your Node.js project directory
         run: |
-          # Install dependencies and run tests
-          npm install
-          npm test
+          # Add the command to build and execute your project here
+          # For example, if you have a Python script, use: python path/to/your/script.py
+          # If you have a shell script, use: bash path/to/your/script.sh
 
           # Send custom metrics to Datadog using the DogStatsD client
           docker run --rm --name datadog-statsd \
