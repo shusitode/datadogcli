@@ -25,7 +25,7 @@ jobs:
             datadog/agent:latest
 
       - name: Run Tests and Collect Metrics
-        working-directory: 'path/to/your/nodejs/project'  # Replace with your Node.js project directory
+        working-directory: path/to/your/nodejs/project  # Replace with your Node.js project directory
         run: |
           # Install dependencies and run tests
           npm install
